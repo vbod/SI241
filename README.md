@@ -11,9 +11,9 @@ code :
 	- dossier utils : contient les fonctions .py ou .m
 
 papiers : 
-	papiers intéressants à lire pour le projet
+	papiers interessants a lire pour le projet
 
 rapport : 
 	- fichiers .tex
-	- dossier figures : contient les figures à insérer dans le latex
+	- dossier figures : contient les figures a inserer dans le latex
 	

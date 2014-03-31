@@ -94,6 +94,7 @@ plt.show()
 #hough = zeros((100,180))
 #lines = cv.HoughLines(uint8(edges),1,np.pi/180,150)
 #for rho,theta in lines[0]:
+
 #    hough[int(100*((rho+c)/(2*c))),180/pi*theta] = 255;
 #
 #figure()

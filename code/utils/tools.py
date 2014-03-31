@@ -43,8 +43,8 @@ if __name__ == '__main__':
     dft_shift, spect = spectral_density(img)
     plot_img(img, 'Image Originale', spect, 'Spectral Density')
     
-    th = threshold(uint8(spect), method = 'adaptative_mean')
-    plot_img(img, 'Spectral density', th, 'Adaptative Thresholding')
+    th = threshold(uint8(spect), method = 'binary')
+    plot_img(img, 'Spectral density', th, 'Thresholding')
     
     # Hough transform
     minLineLength = 10

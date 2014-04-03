@@ -28,6 +28,16 @@ def plot_img(img1, label1 = '', img2 = None, label2 = ''):
         plt.title(str(label1))
         plt.subplot(1,2,2),plt.imshow(img2,'gray')
         plt.title(str(label2))
+
+## Blur the image with a GaussianFilter (with a size associated to sigma)
+def blur(img,sig = 5):
+    ksize = int((sig-0.8)/0.15 +2)
+    if ksize%2 ==0:
+        ksize =ksize+1
+    
+    return cv.GaussianBlur(img,(ksize,ksize),sig)
+    
+    
         
 def spectral_density(img):
     dft = cv.dft(np.float32(img),flags = cv.DFT_COMPLEX_OUTPUT)

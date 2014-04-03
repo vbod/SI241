@@ -3,12 +3,17 @@
 import cv2 as cv
 import numpy as np
 
-def load_image(image = 'DSCN2366.jpg', display = False, main = True):
+def load_image(image = 'DSCN2366.jpg', color = False, display = False, main = True):
     if main:
         path = 'images/' + image
     else:
         path = '../images/' + image
-    img = cv.imread(path,0)
+        
+    if color:
+        img = cv.imread(path)
+    else:
+        img = cv.imread(path,0)
+        
     if display:
         cv.imshow('s = sauver, autre touche = fermer', img)
         key_button = cv.waitKey(0)

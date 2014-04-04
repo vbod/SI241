@@ -36,8 +36,6 @@ def blur(img,sig = 5):
         ksize =ksize+1
     
     return cv.GaussianBlur(img,(ksize,ksize),sig)
-    
-    
         
 def spectral_density(img):
     dft = cv.dft(np.float32(img),flags = cv.DFT_COMPLEX_OUTPUT)

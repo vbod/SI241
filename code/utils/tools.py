@@ -43,13 +43,14 @@ if __name__ == '__main__':
     dft_shift, spect = spectral_density(img)
     plot_img(img, 'Image Originale', spect, 'Spectral Density')
     
-    th = threshold(uint8(spect), method = 'binary')
+    th = threshold(uint8(spect), method = 'binary', thres = 200)
     plot_img(img, 'Spectral density', th, 'Thresholding')
     
     # Hough transform
     minLineLength = 10
     maxLineGap = 100
-    lines = cv.HoughLinesP(th, 1, np.pi/180, 100, minLineLength, maxLineGap)
+    hough_input = uint8(255*ones(shape(th)) - th)
+    lines = cv.HoughLinesP(hough_input, 1, np.pi/180, 100, minLineLength, maxLineGap)
     for x1,y1,x2,y2 in lines[0]:
         cv.line(img,(x1,y1),(x2,y2),(0,0,255),2,4)
     plot_img(img, 'Hough line detection')

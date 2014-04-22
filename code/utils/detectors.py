@@ -10,7 +10,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from tools import *
 
-
 # Canny detector with automatic parameters for the thresholds based on the norm of the Sobel Gradeint
 def Canny_detector(img):
     sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=3)
@@ -49,20 +48,17 @@ def morpho_grad(img, thresh_method = 'adaptive_gaussian', kernel = np.ones((5,5)
     return 255*np.ones(np.shape(gradth)) - gradth
 
 # Top_hat transformation
-def top_hat(img,  thresh_method = 'adaptive_gaussian', kernel= np.ones((51,51),np.uint8)):
+def top_hat(img,  thresh_method = 'adaptive_gaussian', kernel= np.ones((51,51),np.uint8), thres = 100., max_value = 255.):
     topimg = cv.morphologyEx(img, cv.MORPH_TOPHAT, kernel)
     
-    # Morphological gradient threshold
-    if thresh_method == 'manual':
-        topimgth = threshold(topimg,  'binary')
+    if thresh_method == 'binary':
+        topimgth = threshold(topimg,  'binary', thres = thres)
     elif  thresh_method == 'adaptive_mean':
         topimgth = threshold(topimg, 'adaptive_mean')
     else:
         topimgth = threshold(topimg, 'adaptive_gaussian')
     return 255*np.ones(np.shape(topimgth)) - topimgth
-        
-
-
+    
 def hough_lines(img,imgbin,score =500):
     # Hough Line Transform
     lines = cv.HoughLines(imgbin,1,np.pi/180,score)
@@ -97,3 +93,9 @@ def hough_lines(img,imgbin,score =500):
     plt.show()
     
     return lines
+
+if __name__ == '__main__':
+    from load import *
+    image = 'DSCN2366.jpg'
+    img = load_image(image = image, main = False)
+    plot_img(img, 'Image Originale')

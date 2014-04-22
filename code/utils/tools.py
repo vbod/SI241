@@ -40,7 +40,12 @@ def blur(img,sig = 5):
 def spectral_density(img):
     dft = cv.dft(np.float32(img),flags = cv.DFT_COMPLEX_OUTPUT)
     dft_shift = np.fft.fftshift(dft)
-    return dft_shift, 20*np.log(cv.magnitude(dft_shift[:,:,0],dft_shift[:,:,1]))
+    return dft_shift, np.uint8(20*np.log(cv.magnitude(dft_shift[:,:,0],dft_shift[:,:,1])))
+    
+def hamming_2d_window(n,m):
+    ham1 = np.hamming(n)
+    ham2 = np.hamming(m)
+    return np.outer(ham1, ham2)
     
 if __name__ == '__main__':
     from load import *

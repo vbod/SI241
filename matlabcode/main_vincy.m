@@ -4,7 +4,8 @@ close all
 
 % Load images
 addpath('images')
-img = imread('DSCN2368.jpg');
+img = imread('DSCN2369.jpg');
+img = imresize(img, [1024, 1024]);
 img_gray = rgb2gray(img);
 
 % hamming_wind = hamming(size(img,1));
@@ -33,16 +34,21 @@ imshow(uint8(Hviz)), hold on;
 % grad = gradx.^2+grady.^2;
 % figure,imshow(grad);
 % figure
-peaks = houghpeaks(H, 100,'Threshold',0.5*max(H(:))); peaksviz = peaks;
+peaks = houghpeaks(H, 100, 'Threshold', 0.5*max(H(:))); peaksviz = peaks;
 peaksviz(:,1) = floor(peaks(:,1)*(size(H,2)/size(H,1)));
 x = peaksviz(:,2); y = peaksviz(:,1);
 plot(x,y,'s','color','white');
 lines = houghlines(edges, theta, rho, peaks,'FillGap',1000);
 
-I = zeros(size(H)); mask = peaks(:,1) + size(H,1)*peaks(:,2); I(mask) = 255;
+I = zeros(size(H)); mask = peaks(:,1) + size(H,1)*(peaks(:,2)-1); I(mask) = 255;
 Iviz = imresize(I,[size(H,2),size(H,2)]);
-figure();
+figure('name', 'maxima hough');
 imshow(Iviz);
+
+band = 5;
+[img_rot, offset] = rotation_opt(Iviz, band);
+figure('name', ['maxima hough, offset = ' num2str(offset)]);
+imshow(img_rot);
 
 % Plot lines
 figure('name','lines')
@@ -55,3 +61,7 @@ for k = 1:length(lines)
    plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
    plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
 end
+
+
+nb_clusters = 10;
+[segmented_images] = k_means_color(img, nb_clusters);

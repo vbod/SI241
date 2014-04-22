@@ -6,7 +6,7 @@ figure; imshow(Hbinviz)
 
 [HP,thetaP,rhoP] = hough(Hbinviz,'RhoResolution',1,'Theta',-90:0.5:89.5);
 HPviz = imresize(HP,[size(HP,2),size(HP,2)]);
-figure('name','HoughTransform'); imshow(HPviz), hold on
+figure('name','HoughTransform of HoughTransform'); imshow(HPviz), hold on
 
 peaksP  = houghpeaks(HP, 2,'Threshold',0.5*max(HP(:))); 
 peaksPviz = peaksP; peaksPviz(:,1) = floor(peaksP(:,1)*(size(HP,2)/size(HP,1)));
@@ -16,7 +16,7 @@ plot(x,y,'s','color','white');
 lines = houghlines(Hbinviz, thetaP, rhoP, peaksP,'FillGap',1000);
 
 % Plot lines
-figure('name','lines')
+figure('name','lines in HoughTransform')
 imshow(Hbinviz), hold on;
 for k = 1:length(lines)
    xy = [lines(k).point1; lines(k).point2];

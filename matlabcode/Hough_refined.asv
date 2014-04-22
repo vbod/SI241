@@ -1,0 +1,45 @@
+function peaks = Hough_refined(H,lines)
+% Inittializations
+
+
+% Parameters
+spread = 1;
+Nlines = length(lines);
+
+
+ndir = zeros(Nlines,2);
+for k = 1:Nlines
+    dir = lines(k).point2 - lines(k).point1;
+    ndir(k,1) = dir(2); ndir(k,2) = -dir(1);
+    ndir(k,:) = ndir(k,:)/norm(ndir(k,:));
+end
+
+peaks = [];
+for x = 1:size(H,2)
+    for y = 1:size(H,1)
+        val = zeros(Nlines,1);
+        for k = 1:Nlines
+            vec = [x,y] - lines(k).point1; 
+            val(k) = abs(ndir(k,:)*vec');
+        end
+    end
+end
+
+
+for i = 1:length(lines)
+    zoom = zoom_Hough(H,lines(i),spread);
+    mask = mask | zoom;
+end
+figure
+imshow(mask);
+pause
+Hzoom = zeros(size(H)); Hzoom(mask) = H(mask);
+
+Hviz = imresize(Hzoom,[size(Hzoom,2),size(Hzoom,2)]);
+figure('name','HoughRefined')
+imshow(uint8(Hviz)), hold on;
+
+peaks = houghpeaks(Hzoom, 100,'Threshold',0.5*max(Hzoom(:))); peaksviz = peaks;
+peaksviz(:,1) = floor(peaks(:,1)*(size(H,2)/size(H,1)));
+x = peaksviz(:,2); y = peaksviz(:,1);
+plot(x,y,'s','color','white');

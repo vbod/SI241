@@ -19,10 +19,11 @@ Hviz = imresize(H,[size(H,2),size(H,2)]);
 figure('name','HoughTransform')
 imshow(uint8(Hviz)), hold on;
 se = strel('diamond',5);
-filty = fspecial('sobel'); filtx = filty';
-grady = imfilter(uint8(Hviz),filty); gradx = imfilter(uint8(Hviz),filtx);
-grad = gradx.^2+grady.^2;
-figure,imshow(grad);
+filtx = fspecial('sobel'); filty = filtx';
+grady = imfilter(uint8(Hviz),filt); gradx = imfilter(uint8(Hviz),filt)
+% gr = edges(uint8(Hviz),'canny');
+figure
+imshow(uint8(gr))
 figure
 peaks = houghpeaks(H, 100); peaksviz = peaks;
 peaksviz(:,1) = floor(peaks(:,1)*(size(H,2)/size(H,1)));

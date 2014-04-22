@@ -14,15 +14,15 @@ from tools import *
 plt.close("all")
 
 # Load the iamge
-image = 'DSCN2645.jpg'
+image = 'DSCN2369.jpg'
 img = load_image(image, color = True)
 img_gray = load_image(image)
 
-edges = Canny_detector(img)
-plot_img(img_gray,'Orginal Image',edges,'Edges')
-
 kmeanscolor = kmeans_color(img, K = 10)
 plot_img(img,'Orginal Image',kmeanscolor,'K-Means Color')
+
+edges = Canny_detector(kmeanscolor)
+plot_img(img,'Orginal Image',edges,'Edges')
 
 topimg = top_hat(img_gray)
 plot_img(img,'Orginal Image',topimg,'Top_Hat')
@@ -32,6 +32,6 @@ plot_img(img,'Orginal Image',morphgrad,'Morphological gradient')
 
 
 # Final Hough Transform
-lines = hough_lines(img,edges,100)
+lines = hough_lines(img_gray,edges,100)
 
 

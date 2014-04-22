@@ -16,13 +16,13 @@ def Canny_detector(img):
     sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=3)
     sobelnorm = np.sqrt(sobelx*sobelx + sobely*sobely)
     
-    maxT = 0.5*np.max(np.max(sobelnorm))
-    minT = 0.2*maxT
+    maxT = 0.3*np.max(np.max(sobelnorm))
+    minT = 0.1*maxT
     
     return cv.Canny(img,maxT,minT,apertureSize = 3, L2gradient = True)
 
 # Segmentation with K-means color
-def kmeans_color(img, K = 8, Niter = 100, eps = 0.001, attempts = 10):
+def kmeans_color(img, K = 8, Niter = 100, eps = 0.001, attempts = 2):
     Z = img.reshape((-1,3))
     Z = np.float32(Z)
      

@@ -34,7 +34,7 @@ class sliding_window(object):
         self.height = h
         self.model = svm.SVC(C = C, kernel = 'linear', tol = 1e-6, 
                              probability = True)
-        
+    
     def fit(self, X, y):
         """
         Fit le modèle avec un ensemble de patch d'image, des positifs (croix 
@@ -44,7 +44,7 @@ class sliding_window(object):
         """
         self.model.fit(X, y)
         return self
-        
+    
     def test(self, X, y):
         """
         Teste de le modèle appris par fit sur l'ensemble de test (X,y).
@@ -52,7 +52,7 @@ class sliding_window(object):
             - y labels de test associés, np.array taille n_test * 1
         """
         return self.model.score(X, y)
-        
+    
     def detection(self, img, th_svm = .5, th_nms = .3):
         """
         Détecte dans une image toutes les fenêtres ayant une croix due à un 
@@ -78,7 +78,7 @@ class sliding_window(object):
                     res.append((i, j, predict))
         
         return self.NMS(res, th_nms)
-                
+    
     def NMS(self, res, th):
         """
         Fusion des patchs suffisamment proches au sens de l'union sur 
@@ -110,7 +110,7 @@ class sliding_window(object):
             res_nms.append((xy[0], xy[1]), cur[2])
             
         return res_nms         
-        
+
 if __name__ == '__main__':
     w = 15
     h = 15

@@ -4,7 +4,7 @@ close all
 
 % Load images
 addpath('images')
-img = imread('DSCN2366.jpg');
+img = imread('DSCN2369.jpg');
 img_gray = rgb2gray(img);
 
 % Detect edges
@@ -18,18 +18,15 @@ imshow(edges)
 Hviz = imresize(H,[size(H,2),size(H,2)]);
 figure('name','HoughTransform')
 imshow(uint8(Hviz)), hold on;
-% se = strel('diamond',5);
-% filty = fspecial('sobel'); filtx = filty';
-% grady = imfilter(uint8(Hviz),filty); gradx = imfilter(uint8(Hviz),filtx);
-% grad = gradx.^2+grady.^2;
-% figure,imshow(grad);
-% figure
 peaks = houghpeaks(H, 100,'Threshold',0.5*max(H(:))); peaksviz = peaks;
 peaksviz(:,1) = floor(peaks(:,1)*(size(H,2)/size(H,1)));
-
 x = peaksviz(:,2); y = peaksviz(:,1);
 plot(x,y,'s','color','white');
-lines = houghlines(edges, theta, rho, peaks,'FillGap',1000);
+
+vizualization_lines_in_Hough(H,peaks)
+finalpeaks = lines_in_Hough(H,peaks);
+
+lines = houghlines(edges, theta, rho, finalpeaks,'FillGap',1000);
 
 % Plot lines
 figure('name','lines')

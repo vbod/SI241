@@ -1,0 +1,15 @@
+function [img_rot] = rotation_opt(img, band)
+%ROTATION_OPT Summary of this function goes here
+%   Detailed explanation goes here
+
+energy = 1e10;
+[~, n] = size(img);
+p = 
+
+for i = 1:band:floor(size(img,2)/band)
+    img = circshift(img, [0 band]);
+    energy = norm(img(:,1:band)) + norm(img(:,end-band:end));
+end
+
+end
+

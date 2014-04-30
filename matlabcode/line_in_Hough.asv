@@ -1,0 +1,55 @@
+function [linesH,peaks_line] = line_in_Hough(Hbin_rot,peaks_rot,offset)
+% Parameters to detect peaks
+Nlines = 20;
+threshold_hough = 0.2;
+
+% Hough Transform of Hough Transform
+[HP,thetaP,rhoP] = hough(Hbin_rot,'RhoResolution',1,'Theta',-90:0.1:89.5);
+
+% Detect peaks in Hough Transform
+% If the corresponded line is not quite vertical it cannot be the image of
+% a grid
+peaksP  = houghpeaks(HP, Nlines, 'Threshold', threshold_hough*max(HP(:)));
+
+goodpeaksP =[];
+for i = 1:size(peaksP,1)
+    if abs(thetaP(peaksP(i,2)))<5
+        goodpeaksP = [goodpeaksP;peaksP(i,:)];
+    end
+end
+
+
+% Detect lines in Hough transform
+linesH = houghlines(Hbin_rot, thetaP, rhoP, goodpeaksP,'FillGap',1000);
+
+
+% Detect peaks of Hough Transform near the lines found
+peaks_line = [];
+tolerance = 5;
+line = linesH(1).point2 - linesH(1).point1; line = line/norm(line);
+
+peaks_rot = circshift(peaks_rot,[0,1]);
+for i = 1:length(peaks_rot)
+    peaksline = peaks_rot(i,:) - linesH(1).point1; peaksline = peaksline/norm(peaksline);
+    a = abs(peaksline*line'); a = acosd(a);
+    
+    if (a<tolerance)
+        peaks_line = [peaks_line;peaks_rot(i,:)];
+    end
+end
+
+peaks_line = circshift(peaks_line,[0,1]);
+
+% % Reparametrize the peaks without the offset
+% peaks_line(:,2) = mod(peaks_line(:,2)-offset,360); peaks_line(peaks_line ==0 ) = 360;
+
+
+% Visualizations
+HPviz = imresize(HP,[size(HP,2),size(HP,2)]); HPviz = 255*(HPviz - min(min(HPviz))*ones(size(HPviz)))/(max(max(HPviz))-min(min(HPviz)));
+figure('name','HoughTransform of HoughTransform'); imshow(uint8(HPviz)), hold on
+
+peaksPviz = peaksP; peaksPviz(:,1) = floor(peaksP(:,1)*(size(HP,2)/size(HP,1)));
+x = peaksPviz(:,2); y = peaksPviz(:,1);
+plot(x,y,'s','color','white');
+
+disp_lines_in_img(Hbin_rot,linesH)

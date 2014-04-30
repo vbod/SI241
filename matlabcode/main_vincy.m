@@ -4,7 +4,7 @@ close all
 
 % Load images
 addpath('images')
-img = imread('DSCN2369.jpg');
+img = imread('DSCN2649.jpg');
 img = imresize(img, [1024, 1024]);
 img_gray = rgb2gray(img);
 
@@ -45,23 +45,23 @@ Iviz = imresize(I,[size(H,2),size(H,2)]);
 figure('name', 'maxima hough');
 imshow(Iviz);
 
-band = 5;
-[img_rot, offset] = rotation_opt(Iviz, band);
+band = 10;
+[img_rot, offset] = window_opt(Iviz, band);
 figure('name', ['maxima hough, offset = ' num2str(offset)]);
 imshow(img_rot);
 
-% Plot lines
-figure('name','lines')
-imshow(img_gray), hold on;
-for k = 1:length(lines)
-   xy = [lines(k).point1; lines(k).point2];
-   plot(xy(:,1),xy(:,2),'LineWidth',4,'Color','green');
-   
-   % Plot beginnings and ends of lines
-   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
-   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
-end
-
-
-nb_clusters = 10;
-[segmented_images] = k_means_color(img, nb_clusters);
+% % Plot lines
+% figure('name','lines')
+% imshow(img_gray), hold on;
+% for k = 1:length(lines)
+%    xy = [lines(k).point1; lines(k).point2];
+%    plot(xy(:,1),xy(:,2),'LineWidth',4,'Color','green');
+%    
+%    % Plot beginnings and ends of lines
+%    plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+%    plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+% end
+% 
+% 
+% nb_clusters = 10;
+% [segmented_images] = k_means_color(img, nb_clusters);

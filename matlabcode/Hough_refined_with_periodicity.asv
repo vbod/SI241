@@ -1,0 +1,18 @@
+function peaks_refined = Hough_refined_with_periodicity(peaks_grid1,peaks_grid2)
+per1 = Inf;
+for i = 1:size(peaks_grid1,1)-1
+    if abs(peaksgrid1(i,1)-peaksgrid1(i,2)) <per1
+        per1 = abs(peaksgrid1(i,1)-peaksgrid1(i,2));
+    end
+end
+
+per2 = Inf;
+for i = 1:size(peaks_grid2,1)-1
+    if abs(peaksgrid2(i,1)-peaksgrid2(i,2)) <per2
+        per2 = abs(peaksgrid2(i,1)-peaksgrid2(i,2));
+    end
+end
+
+
+
+    

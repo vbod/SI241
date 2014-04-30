@@ -3,45 +3,33 @@ close all
 % Parameters
 
 % Load images
-addpath('images')
-img = imread('DSCN2649.jpg');
-img_gray = rgb2gray(img);
+scale = 512;
+[img,img_gray] = load_image('lapin.jpg',scale)  ;
 
 % Detect edges
 edges = edge(img_gray,'canny');
 figure('name','contours')
 imshow(edges)
 
-% Hough Transform
-[v,h] = size(img_gray); 
-[H, theta, rho] = hough(edges,'RhoResolution',1,'Theta',-90:0.5:89.5);
-Hviz = imresize(H,[size(H,2),size(H,2)]);
-figure('name','HoughTransform')
-imshow(uint8(Hviz)), hold on;
+% % K-means color
+% nb_clusters = 10;
+% pixel_labels = k_means_color(img, nb_clusters);
 
-peaks = houghpeaks(H, 100,'Threshold',0.5*max(H(:))); peaksviz = peaks;
-peaksviz(:,1) = floor(peaks(:,1)*(size(H,2)/size(H,1)));
-x = peaksviz(:,2); y = peaksviz(:,1);
-plot(x,y,'s','color','white');
+% Hough Transform with only maxima (binary image) with optimal window in theta
+[H_rot,Hbin_rot,theta_rot,rho,peaks_rot,offset] = Hough_basic(edges);
 
-vizualization_lines_in_Hough(H,peaks)
-finalpeaks = lines_in_Hough(H,peaks);
+% Search lines by iterative processus
+disp_lines_in_Hough(Hbin_rot);
+[linesH_grid, peaks_grid1, peaks_grid2] = Hough_lines(img_gray, edges, Hbin_rot, theta_rot, rho, peaks_rot);
+peaks_grid = [peaks_grid1; peaks_grid2];
 
-lines = houghlines(edges, theta, rho, finalpeaks,'FillGap',1000);
+% Refine to get the entire grid
+% peaks_refined = Hough_refined_with_zoom(H_rot,linesH_grid);
 
-peaks = Hough_refined(H,lines);
-break
 
-lines = houghlines(edges, theta, rho, finalpeaks,'FillGap',1000);
+% Visualization of the lines at different steps
+lines = houghlines(edges, theta_rot, rho, peaks_grid,'FillGap',1000);
+disp_lines_in_img(img_gray,lines)
 
-% Plot lines
-figure('name','lines')
-imshow(img_gray), hold on;
-for k = 1:length(lines)
-   xy = [lines(k).point1; lines(k).point2];
-   plot(xy(:,1),xy(:,2),'LineWidth',4,'Color','green');
-   
-   % Plot beginnings and ends of lines
-   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
-   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
-end
+lines = houghlines(edges, theta_rot, rho, peaks_refined,'FillGap',1000);
+disp_lines_in_img(img_gray,lines)

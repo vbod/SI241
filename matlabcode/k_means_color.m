@@ -1,4 +1,4 @@
-function [segmented_images] = k_means_color(img, nb_clusters)
+function pixel_labels = k_means_color(img, nb_clusters)
 %K_MEANS_COLOR Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,8 +12,8 @@ ncols = size(ab, 2);
 ab = reshape(ab, nrows*ncols, 2);
 
 % repeat the clustering 3 times to avoid local minima
-[cluster_idx, cluster_center] = kmeans(ab, nb_clusters, 'distance',...
-                                       'sqEuclidean', 'Replicates', 3);
+[cluster_idx, cluster_center] = kmeans(ab, nb_clusters, 'Distance',...
+                                       'sqEuclidean', 'Replicates', 10);
 
 pixel_labels = reshape(cluster_idx, nrows, ncols);
 imshow(pixel_labels,[]), title('image labeled by cluster index');

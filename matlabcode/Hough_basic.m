@@ -1,6 +1,6 @@
 function [H_rot,Hbin_rot,theta_rot,rho,peaks_rot,offset] = Hough_basic(img_bin)
 % Parameters
-threshold_hough = 0.3;
+threshold_hough = 0.5;
 
 
 % Classic Hough Transform
@@ -15,10 +15,23 @@ band = 10;
 [Hbin_rot, offset] = window_opt(Hbin, band);
 
 H_rot = circshift(H,[0,offset]);
-theta_rot = theta - (theta(offset)+90.1);
-peaks_rot = peaks;
-peaks_rot(:,2) = mod(peaks_rot(:,2)+offset,length(theta)); peaks_rot(peaks_rot ==0 ) = length(theta);
+mid = size(H_rot,1)/2;
+for j = 1:offset
+    for i = 1:size(H_rot,1)/2
+        a = H_rot(i,j);
+        H_rot(i,j) = H_rot(2*mid - i,j);
+        H_rot(2*mid - i,j) = a;
+    end
+end
 
+theta_rot = theta - (theta(offset)+90.1);
+
+peaks_rot = houghpeaks(H_rot, 100,'Threshold',threshold_hough*max(H(:))); 
+
+Hbin_rot = zeros(size(H)); mask = peaks_rot(:,1) + size(H,1)*(peaks_rot(:,2)-1); Hbin_rot(mask) = 255;
+
+% peaks_rot = peaks;
+% peaks_rot(:,2) = mod(peaks_rot(:,2)+offset,length(theta)); peaks_rot(peaks_rot ==0 ) = length(theta);
 
 
 % Vizualisation

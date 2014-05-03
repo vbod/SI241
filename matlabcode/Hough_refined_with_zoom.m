@@ -28,7 +28,7 @@ for x = 1:size(H_rot,2)
 end
 
 % Detect peaks on these lines
-peaks = houghpeaks(Hzoom, 100,'Threshold',0.01*max(Hzoom(:))); peaksviz = peaks;
+peaks = houghpeaks(Hzoom, 100,'Threshold',0.1*max(Hzoom(:))); peaksviz = peaks;
 
 
 % Visualization

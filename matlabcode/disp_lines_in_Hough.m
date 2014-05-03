@@ -1,6 +1,6 @@
-function HPviz= disp_lines_in_Hough(Hbin_rot)
+function HPviz= disp_lines_in_Hough(H_rot,peaks_rot,Hbin_rot)
 % Parameters to detect peaks
-Nlines = 20;
+Nlines = 2;
 threshold = 0.2;
 
 % Rescale Hough Transform
@@ -20,4 +20,21 @@ plot(x,y,'s','color','white');
 
 % Display lines in Hough Transform
 lines = houghlines(Hbin_rot_viz, thetaP, rhoP, peaksP,'FillGap',1000);
-disp_lines_in_img(Hbin_rot_viz,lines)
+H_rot_viz = uint8(imresize(H_rot,[size(H_rot,2),size(H_rot,2)]));
+
+figure('name','Lines in Hough')
+imshow(H_rot_viz), hold on;
+
+peaksviz = peaks_rot;
+peaksviz(:,1) = floor(peaks_rot(:,1)*(size(H_rot,2)/size(H_rot,1)));
+x = peaksviz(:,2); y = peaksviz(:,1);
+plot(x,y,'s','color','red'), hold on;
+
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',4,'Color','green');
+   
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+end

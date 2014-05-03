@@ -19,13 +19,16 @@ imshow(edges)
 [H_rot,Hbin_rot,theta_rot,rho,peaks_rot,offset] = Hough_basic(edges);
 
 % Search lines by iterative processus
-disp_lines_in_Hough(Hbin_rot);
-[linesH_grid, peaks_grid1, peaks_grid2] = Hough_lines(img_gray, edges, Hbin_rot, theta_rot, rho, peaks_rot);
+disp_lines_in_Hough(H_rot,peaks_rot,Hbin_rot);
+
+[linesH_grid, peaks_grid1, peaks_grid2] = Hough_lines(img_gray, H_rot, Hbin_rot, theta_rot, rho, peaks_rot);
 peaks_grid = [peaks_grid1; peaks_grid2];
+size(peaks_grid1)
+size(peaks_grid2)
 
 % Refine to get the entire grid
 % peaks_refined = Hough_refined_with_zoom(H_rot,linesH_grid);
-
+% peaks_refined = Hough_refined_with_periodicity(H_rot,linesH_grid,peaks_grid1,peaks_grid2);
 
 % Visualization of the lines at different steps
 lines = houghlines(edges, theta_rot, rho, peaks_grid,'FillGap',1000);
@@ -33,3 +36,4 @@ disp_lines_in_img(img_gray,lines)
 
 % lines = houghlines(edges, theta_rot, rho, peaks_refined,'FillGap',1000);
 % disp_lines_in_img(img_gray,lines)
+

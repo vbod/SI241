@@ -1,4 +1,4 @@
-function score_grids = find_best_pair_lines(lines_grid_num, linesH, img_gray, edges, theta_rot, rho, peaks_rot, tolerance_peaks_in_line, tolerance_in_line_in_img)
+function score_grids = find_best_pair_lines_1(lines_grid_num, linesH, img_gray, edges, theta_rot, rho, peaks_rot, tolerance_peaks_in_line, tolerance_in_line_in_img)
 score_grids = zeros(size(lines_grid_num,1),1);
 
 for i = 1:size(lines_grid_num,1)

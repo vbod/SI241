@@ -80,4 +80,12 @@ end
 
 [~,biggest_cluster] = max(size_clusters);
 
+% Vizualization
+figure('name','Kmeans')
+% colors =['r','b','g','y','k','m'];
+% for i = 1:K
+%    scatter3(datas(1,labels == i), datas(2,labels == i), datas(3,labels == i)),hold on;
+% end
+scatter3(datas(1,:), datas(2,:), datas(3,:)),hold on;
+scatter3(datas(1,labels == biggest_cluster), datas(2,labels == biggest_cluster), datas(3,labels == biggest_cluster),'r')
 end

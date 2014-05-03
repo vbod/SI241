@@ -1,27 +1,27 @@
 function Hough_refined_with_colors(img, edges, theta_rot, rho, peaks_grid, res)
 % Parameters
-width_line = 10;
+width_line = 1;
 Niter_Kmeans = 100;
 K = 5;
 tol_color = 10;
 
 pixels_in_lines = find_pixels_in_lines(img, edges, theta_rot, rho, peaks_grid, width_line);
-
+size(pixels_in_lines)
 [mu,~,biggest_cluster] = K_meansplusplus (pixels_in_lines, K, Niter_Kmeans);
 
 color_line = round(mu(:,biggest_cluster));
 
-% L = 100;
-% color_square = uint8(cat(3,color_line(1)*ones(L,L),color_line(2)*ones(L,L),color_line(3)*ones(L,L)));
-% figure
-% imshow(color_square)
+L = 100;
+color_square = uint8(cat(3,color_line(1)*ones(L,L),color_line(2)*ones(L,L),color_line(3)*ones(L,L)));
+figure
+imshow(color_square)
 
 color_line = uint8(color_line);
 
 grid = img;
 for i = 1:size(img,1)
     for j = 1:size(img,2)
-        color_like = norm(double(reshape(img(i,j,:),3,1) - color_line))
+        color_like = norm(double(reshape(img(i,j,:),3,1) - color_line));
         if color_like <= tol_color
             grid(i,j,:) = 0;
         end

@@ -6,7 +6,7 @@ getd = @(p)path(p,path);
 getd('toolbox_signal/');
 getd('toolbox_general/');
 
-n = siez(img,1); % présuppose que les images sont carrées ! 
+n = size(img,1); % présuppose que les images sont carrées ! 
 
 % mettre true pour plotter les énergies, variable de debug
 plot = true;

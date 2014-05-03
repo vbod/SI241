@@ -1,7 +1,7 @@
 function [score_final,peaks_in_line,w,b] = ransac_maison(peaks,res)
 % Parameters
 N = size(peaks,1);
-K = max(floor(N*1/3),2); % take at least 2 points among 3 to build a line
+K = max(floor(N/3),2); % take at least 2 points among 3 to build a line
 Niter = 10; % Number of iterations to find a good model
 switch res
     case 256

@@ -4,7 +4,7 @@ close all
 
 
 % Load images
-res = 512; % Résolution de l'image
+res = 256; % Résolution de l'image
 [img,img_gray] = load_image('tigre.jpg',res)  ;
 
 % Detect edges
@@ -39,7 +39,7 @@ figure('name', 'mask')
 imshow(mask)
 
 % Intpainting
-[ fSpars ] = inpainting(img_gray, mask);
+inpainting(img_gray, mask);
 
 
 % Visualization of the lines at different steps

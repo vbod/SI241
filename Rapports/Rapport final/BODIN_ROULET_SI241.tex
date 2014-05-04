@@ -22,7 +22,7 @@
 
 \title{Projet SI241 \\
 Suppression de grillage sur des photos de zoo}
-\author{Vincent BODIN \& Vincent ROULET}
+\author{Vincent ROULET \& Vincent BODIN}
 \date{}
 
 
@@ -33,30 +33,25 @@ Suppression de grillage sur des photos de zoo}
 \vspace{2cm}
 \renewcommand{\abstractname}{Résumé}
 \begin{abstract}
-
+Ce projet s'attelle à la tâche de suppression de grillage dans une photo de zoo par exemple. Les grillages sont souvent composé d'une structure particulière, tant au niveau de la forme géométrique que de la colorimétrie. Cette structure sera utilisée pour détecter le grillage au sein d'une photo. En seconde partie nous nous attacherons à reconstruire l'image masquée - \emph{i.e.} où le grillage a été supprimé. 
 \end{abstract}
 
 \newpage
 \tableofcontents
 \newpage
 
-
-\section{Hypothèses}
-
-
-\section{Détection de contours}
+\section*{Introduction}
 
 
-\section{Extraction de lignes à partir des contours}
+
+\input{hypotheses}
+\input{detection_extraction}
+\input{grillage}
+\input{inpainting}
 
 
-\section{Identification d'un grillage}
 
-
-\section{Extraction d'un masque}
-
-
-\section{Reconstruction de l'image}
+\section*{Conclusion}
 
 
 

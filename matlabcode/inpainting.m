@@ -1,4 +1,4 @@
-function [ fSpars ] = inpainting(img, Omega)
+function [  ] = inpainting(img, Omega)
 
 img = im2double(img);
 Omega = ones(size(Omega)) - Omega;
@@ -29,7 +29,7 @@ PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
 SoftThreshPsi = @(f,T)Psi(SoftThresh(PsiS(f),T));
 ProjC = @(f,Omega)Omega.*f + (1-Omega).*y;
 
-nb_ite = 1000;
+nb_ite = 2000;
 E = zeros(1, nb_ite);
 lambda = .03; % utiliser dans le cas à pas fixe
 % lambda_list = linspace(1,0,nb_ite);
@@ -56,11 +56,9 @@ U = repmat( reshape(u,[1 1 length(u)]), [n n 1] );
 lambda = .01;
 
 options.ti = 1; % use translation invariance
-if using_matlab()
-    Xi = @(a)perform_wavelet_transf(a, Jmin, -1,options);
-    PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
-    Psi = @(a)Xi(a./U);
-end
+Xi = @(a)perform_wavelet_transf(a, Jmin, -1,options);
+PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
+Psi = @(a)Xi(a./U);
 
 tau = 1.9*min(u);
 
@@ -80,6 +78,25 @@ plot(EE);
 fTI = Psi(a);
 figure('name','Energy_translation invariant');
 imageplot(clamp(fTI));
+
+
+% Inpainting using Iterative Hard Thresholding
+HardThresh = @(x,t)x.*(abs(x)>t);
+
+niter = 500;
+lambda_list = linspace(1,0,niter);
+
+fHard = y;
+tau = 2;
+
+for i = 1:niter
+    fHard = ProjC(fHard,Omega);
+    fHard = Xi( HardThresh( PsiS(fHard), tau*lambda_list(i) ) );
+end
+
+figure('name', 'Inpainting');
+imageplot(clamp(fHard));
+
 
 end
 

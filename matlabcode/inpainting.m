@@ -29,9 +29,9 @@ PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
 SoftThreshPsi = @(f,T)Psi(SoftThresh(PsiS(f),T));
 ProjC = @(f,Omega)Omega.*f + (1-Omega).*y;
 
-nb_ite = 2000;
+nb_ite = 1000;
 E = zeros(1, nb_ite);
-lambda = .03; % utiliser dans le cas à pas fixe
+lambda = .07; % utiliser dans le cas à pas fixe
 % lambda_list = linspace(1,0,nb_ite);
 
 fSpars = y;
@@ -53,7 +53,7 @@ J = Jmax-Jmin+1;
 u = [4^(-J) 4.^(-floor(J+2/3:-1/3:1)) ];
 U = repmat( reshape(u,[1 1 length(u)]), [n n 1] );
 
-lambda = .01;
+% lambda = .01;
 
 options.ti = 1; % use translation invariance
 Xi = @(a)perform_wavelet_transf(a, Jmin, -1,options);

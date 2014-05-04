@@ -1,4 +1,4 @@
-function img_masked = mask_image(img_gray, edges, theta_rot, rho, peaks_grid)
+function [img_masked, mask] = mask_image(img_gray, edges, theta_rot, rho, peaks_grid)
 % Parameters
 width_line = 3;
 
@@ -15,6 +15,9 @@ for k = 1:Nlines
 end
 
 img_masked  = img_gray;
+%%%%%%%%% Modification Vincy %%%%%%%%%
+mask = ones(size(img_gray));
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for x = 1:size(img_gray,2)
     for y = 1:size(img_gray,1)
         val = zeros(Nlines,1);
@@ -24,6 +27,9 @@ for x = 1:size(img_gray,2)
         end
         if min(val) < width_line
             img_masked(y,x) = 0;
+            %%%%%%%%% Modification Vincy %%%%%%%%%%
+            mask(y,x) = 0;
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         end
     end
 end

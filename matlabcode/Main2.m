@@ -5,7 +5,7 @@ close all
 
 % Load images
 res = 512; % Résolution de l'image
-[img,img_gray] = load_image('lapin.jpg',res)  ;
+[img,img_gray] = load_image('tigre.jpg',res)  ;
 
 % Detect edges
 edges = edge(img_gray,'canny');
@@ -32,7 +32,7 @@ peaks_refined = Hough_refined_with_periodicity2(H_rot,linesH,peaks_grid);
 
 % Creation of a mask
 img_masked = mask_image(img_gray, edges, theta_rot, rho, peaks_refined);
-figure
+figure('name','mask')
 imshow(img_masked)
 
 % Intpainting

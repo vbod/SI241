@@ -4,14 +4,16 @@ N = size(peaks,1);
 K = max(floor(N/3),2); % take at least 2 points among 3 to build a line
 Niter = 10; % Number of iterations to find a good model
 switch res
+    case 128
+        d = 5;
     case 256
-        d = 20;
+        d = 10;
     case 512
-        d = 40;
+        d = 20;
     case 1024
-        d = 80;
+        d = 40;
     case 2048
-        d = 160;
+        d = 80;
 end
 
 if  N <=2

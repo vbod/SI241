@@ -50,6 +50,6 @@ end
 [x,y] = meshgrid(1:size(Hviz_rot,2),1:size(Hviz_rot,1));
 for i = 1:2
     f = linesH(i).w(1)*x + linesH(i).w(2)*y - linesH(i).b;
-    contour(x,y,f,[0 0],'g'), hold on;
+    contour(x,y,f,[0 0],'g'),hold on;
 end
-    
+figure

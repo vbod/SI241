@@ -88,4 +88,5 @@ figure('name','Kmeans')
 % end
 scatter3(datas(1,:), datas(2,:), datas(3,:)),hold on;
 scatter3(datas(1,labels == biggest_cluster), datas(2,labels == biggest_cluster), datas(3,labels == biggest_cluster),'r')
+biggest_cluster
 end

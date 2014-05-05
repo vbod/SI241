@@ -1,1 +1,19 @@
 \section{Hypothèses}
+La complexité de supprimer des grillages dans des photos réside notamment dans la variété des grillages existant, dont découle la difficulté de leur détection. Nous commençons donc par présenter les hypothèses que nous avons formulées pour diriger la construction de notre algorithme. Nous testerons en conclusion notre algorithme à l'aune des limites de ces hypothèses
+
+\paragraph{Grillage non flou} Si la photo est focalisée sur l'animal rendant le grillage flou, la détection de contours menant au grillage est perdue. De manière générale la détection du grillage nous semble très difficile dans ce cas étant donné la perte d'information due au flou.
+
+\paragraph{Photo prise approximativement face au grillage}
+Si la photo est prise de biais, les lignes du grillage ne seront plus espacées périodiquement sur la photo et leurs angles varieront largement. Ce phénomène met en difficulté la caractérisation du grillage par sa périodicité spatiale, bien qu'on puisse la retrouver en connaissant la transformation homographique liée à la prise de vue. Comme de nombreuses photos ne sont pas prises parfaitement face au grillage, nous avons tenté de prendre en compte cette déformation géométrique
+
+\paragraph{Grillage sans rupture de direction ou double grillage}
+Si le grillage a une rupture de direction et se trouve donc dans deux plans différents ou si deux grillages sont présents sur l'image, notre algorithme ne détectera qu'un grillage. En effet pour palier la détection de faux grillages nous nous sommes restreints à détecter le grillage le plus probable dans l'image.
+
+\paragraph{Grillage total}
+Si le grillage est partiel, c'est à dire qu'il n'est que sur une partie de l'image, le masque obtenu pour l'inpainting étendra les lignes du grillage. L'idée est d'éliminer plus que nécessaire de manière à éviter de garder des morceaux de grillage non détectés.
+
+\paragraph{Grillage sans croisillons}
+Si le grillage est fait de croisillons, les lignes de ce dernier seront décalées à chaque noeud, complexifiant donc la détection de ces dernières en tant que lignes traversant toute l'image.
+
+\paragraph{Nombre minimal de barreaux}
+Nous supposons que la photos contient au moins 2 barreaux dans chaque direction. En effet le grillage perd toute caractéristique de périodicité sinon.

@@ -8,7 +8,6 @@ for i = 1:length(per)-1
 end
 d = 2*min(ecart(i)); % maximal distance to detect periode
 
-per
 
 score = zeros(Niter,1);
 per_mean = zeros(Niter,1);

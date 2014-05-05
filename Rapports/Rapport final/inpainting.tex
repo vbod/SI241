@@ -50,3 +50,31 @@ La contrainte à respecter sur le pas est cette fois-ci :
 
 
 \subsection{Inpainting par régularisation parcimonieuse}
+
+Cette méthode d'\emph{inpainting} diffère de la première en ce sens qu'elle passe par une représentation parcimonieuse de l'image avant d'essayer de combler les trous. La représentation considérée est engendrée par une base de vecteurs $\Psi = (\psi_m)_m$, usuellement une base d'ondelette. Les coefficients dans cette base sont noté $a =(a_m)_m$, on par du principe que la représentation est parcimonieuse - \emph{i.e.} les $(a_m)_m$ le sont. On cherche un ensemble de coefficients $a^*$ qui résout :
+\begin{equation}
+a^* \in \arg \min_a \frac{1}{2} \| y - \Phi \Psi a \|^2 + \lambda J(a)
+\end{equation}
+Le paramètre $\lambda$ correspond à de la régularisation pour le bruit, comme nos images ne sont pas bruitée, nous prenons un $\lambda$ très faible. La notation $\Psi a = \sum_m a_m \psi_m$ indique uniquement l'opération de reconstruction du signal. Souvent on prend $J(a)$ comme la norme $L^1$ : $J(a) = \sum_m \|a_m \|$.
+
+On note $S^{\Psi}(a)$ la fonction de seuillage - \emph{soft} ou \emph{hard} - dans la base $\Psi$. On peut prendre plusieurs bases d'ondelettes, nous présenterons des résultats pour une base orthogonale et une autre invariante par translation. L'algorithme utilisé pour résoudre le problème de minimisation précédent est le \emph{forward-backward splitting} - aussi connu comme \emph{iterative thresholding}. Il s'agit d'itérer : 
+\begin{equation}
+f^{(n+1)} = S^{\Psi}_{\tau,\lambda}(f^{(n)} - \tau \Phi^*(\Phi f^{(n)} - y) )
+\end{equation}
+L'avantage de prendre des ondelettes orthogonales est que $\Phi^* = \Phi$. Dans ce cas, pour qu'il y ait convergence le pas doit vérifier :
+\begin{equation}
+\tau < \frac{2}{\| \Phi^* \Phi \|} = 2
+\end{equation}
+Avec $\tau = 1$, et des ondelettes orthogonales toujours, l'étape de descente de gradient revient à projeter sur la contrainte $\mathcal{C} = \{f | \forall \Omega(x) = 1, f(x) = y(x) \}$. Ainsi dans le cas d'ondelettes orthogonales, l'algorithme revient à :
+\begin{equation}
+f^{(n+1)} = S_{\lambda}^{\Psi} (\text{Proj}_{\mathcal{C}} (f^{(n)}))
+\end{equation}
+Cet algorithme s'adapte dans le cas d'ondelette non orthogonales mais les dernières simplifications ne sont plus licites. 
+
+(COMPARAISON METHODES + IMAGES).
+
+
+
+
+
+

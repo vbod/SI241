@@ -3,9 +3,13 @@ function peaks_rot_final = delete_artefacts(H_rot,peaks_rot, theta_rot)
 % Delete artefact of peaks on -45 and 45
 peaks_rot_final = [];
 for i = 1:size(peaks_rot,1)
-    art45 = (theta_rot(peaks_rot(i,2)) >= 44.5 &&  theta_rot(peaks_rot(i,2)) <= 45.5);
-    art135 = (theta_rot(peaks_rot(i,2)) >= -45.5 &&  theta_rot(peaks_rot(i,2)) <= -44.5);
-    if ~(art45 || art135)
+    art45 = (theta_rot(peaks_rot(i,2)) >= 44.9 &&  theta_rot(peaks_rot(i,2)) <= 45.1);
+    artm45 = (theta_rot(peaks_rot(i,2)) >= -45.1 &&  theta_rot(peaks_rot(i,2)) <= -44.1);
+    art90 = (theta_rot(peaks_rot(i,2)) >= 89.9 &&  theta_rot(peaks_rot(i,2)) <= 90.1);
+    artm90 = (theta_rot(peaks_rot(i,2)) >= -90.1 &&  theta_rot(peaks_rot(i,2)) <= -89.9);
+    art135 = (theta_rot(peaks_rot(i,2)) >= 134.9 &&  theta_rot(peaks_rot(i,2)) <= 135.1);
+    artm135 = (theta_rot(peaks_rot(i,2)) >= -135.1 &&  theta_rot(peaks_rot(i,2)) <= -134.9);    
+    if ~(art45 || art90 || art135 || artm45 || artm90 || artm135)
         peaks_rot_final = [peaks_rot_final;peaks_rot(i,:)];
     end
 end

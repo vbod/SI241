@@ -1,6 +1,10 @@
 function [H_rot,Hbin_rot,theta_rot,rho,peaks_rot,offset] = Hough_basic2(img_bin,res)
 % Parameters corresponding to the resolution
 switch res
+    case 128
+        Nlines_to_detect = 10;
+        threshold_hough = 0.4;
+        theta_prec = 0.4;
     case 256
         Nlines_to_detect = 10;
         threshold_hough = 0.4;

@@ -2,7 +2,7 @@ function Hough_refined_with_colors(img, edges, theta_rot, rho, peaks_grid, res)
 % Parameters
 width_line = 1;
 Niter_Kmeans = 100;
-K = 5;
+K = 3;
 tol_color = 10;
 
 pixels_in_lines = find_pixels_in_lines(img, edges, theta_rot, rho, peaks_grid, width_line);

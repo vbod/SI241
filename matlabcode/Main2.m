@@ -5,7 +5,7 @@ close all
 
 % Load images
 res = 512; % Résolution de l'image
-[img,img_gray] = load_image('chouette.jpg',res)  ;
+[img,img_gray] = load_image('truc.jpg',res)  ;
 
 % Detect edges
 edges = edge(img_gray,'canny');

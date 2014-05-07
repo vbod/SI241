@@ -4,8 +4,8 @@ close all
 
 
 % Load images
-res = 256; % Résolution de l'image
-[img,img_gray] = load_image('tigre.jpg',res)  ;
+res = 512; % Résolution de l'image
+[img,img_gray] = load_image('parrot.jpg',res)  ;
 
 % Detect edges
 edges = edge(img_gray,'canny');

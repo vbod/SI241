@@ -85,3 +85,31 @@ Lenteur de l'\emph{inpainting} sur grandes images $\Rightarrow$ choix 2.
 \end{frame}
 
 
+\subsection{Extraction de lignes}
+
+\begin{frame}{Extraction de lignes}
+\begin{block}{Deuxième étape de l'algorithme}
+Extraire les lignes à partir de la détection de contour
+\end{block}
+On utilise pour ceci la transformation de Hough.
+\begin{itemize}
+\item utilise une représentation des droite : 
+\begin{equation}
+r = x \cos \theta + y \sin\theta
+\end{equation}
+\item A chaque point est associé une courbe - sinusoïde - dans l'espace de Hough. 
+\item Croisement de deux courbes $\Rightarrow$ droite reliant les deux points liés à ces courbes.
+\end{itemize} 
+\end{frame}
+
+
+\begin{frame}{Extraction de lignes}
+\begin{figure}[ht!]
+\centering
+\begin{tabular}{cc}
+\includegraphics[width = .5\columnwidth]{fig/Hough_transform_diagram.png} &
+\includegraphics[width = .5\columnwidth]{fig/Hough_space_plot_example.png}
+\end{tabular}
+\caption{Transformation de Hough, les croisements dans l'espace arrivé correspondent aux droites dans l'image initiale. }
+\end{figure}
+\end{frame}

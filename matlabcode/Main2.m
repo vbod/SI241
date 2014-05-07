@@ -5,7 +5,7 @@ close all
 
 % Load images
 res = 256; % Résolution de l'image
-[img,img_gray] = load_image('tigre.jpg',res)  ;
+[img,img_gray] = load_image('lapin.jpg',res)  ;
 
 figure('name','image resized')
 imshow(img)

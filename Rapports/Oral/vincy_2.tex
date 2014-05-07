@@ -1,6 +1,6 @@
 \section{Inpainting}
 
-\begin{frame}{Inpainting par régularisation parcimonieuse}
+\begin{frame}{Inpainting}
 \begin{block}{Denière partie de l'algorithme}
 Appliquer le masque $\Phi$ extrait et remplir les \og trous\fg - problématique d'\emph{inpainting}.
 \end{block}
@@ -18,6 +18,14 @@ a^* \in \arg \min_a \frac{1}{2} \| y - \Phi \Psi a \|^2 + \lambda J(a)
 \end{frame}
 
 
-\begin{frame}
-
+\begin{frame}{Inpainting}
+\begin{figure}
+\centering
+\begin{tabular}{ccc}
+\includegraphics[width = .3\columnwidth]{fig/tigre_initial.png} &
+\includegraphics[width = .3\columnwidth]{fig/tigre_masque.png} &
+\includegraphics[width = .3\columnwidth]{fig/tigre_inpainting.png} \\
+\end{tabular}
+\caption{Processus d'\emph{inpainting} sur l'image du tigre.}
+\end{figure}
 \end{frame}

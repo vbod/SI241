@@ -28,8 +28,9 @@ for k = 1:2
     not_seed = 1;
     while not_seed
         peaks_try = max(round(peaks_seed - per_final*line_dir),1);
-        intensity_peaks_try = norm(H_rot(peaks_try(2)-tol_intensity_hough:peaks_try(2)+tol_intensity_hough,...
-            peaks_try(1)-tol_intensity_hough:peaks_try(1)+tol_intensity_hough));
+%         intensity_peaks_try = norm(H_rot(peaks_try(2)-tol_intensity_hough:peaks_try(2)+tol_intensity_hough,...
+%             peaks_try(1)-tol_intensity_hough:peaks_try(1)+tol_intensity_hough));
+        intensity_peaks_try = H_rot(peaks_try(2),peaks_try(1));
         if intensity_peaks_try  == 0
             not_seed = 0;
         else

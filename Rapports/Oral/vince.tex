@@ -1,4 +1,17 @@
-\section{Identification du grillage}
+\section{Extraction du grillage}
+
+\begin{frame}{Extraction du grillage}
+\begin{block}{Première étape de l'algorithme}
+Détecter les contours dans l'image. Idée : les grillages interviennent comme des bords.
+\end{block}
+\begin{block}{Deuxième étape de l'algorithme}
+Détection de lignes par Transformée de Hough puis détection de grillage sur la transformée de Hough par RANSAC sur Hough
+\end{block}
+\begin{block}{Troisième étape}
+Raffinement du grillage par périodicité dans Hough
+\end{block}
+\end{frame}
+
 \begin{frame}{Hypothèses}
 \begin{itemize}
 	\item Directions du grillage approximativement perpendiculaires (90°$\pm$ 30°)
@@ -81,6 +94,6 @@
 		& \includegraphics[width = 0.5 \columnwidth]{fig/houghavecraf.png}
 	\end{tabular}		\end{column}
 	\end{columns}
+	
 
 \end{frame}
-

@@ -1,6 +1,6 @@
 function [img_masked, mask] = mask_image(img_gray, edges, theta_rot, rho, peaks_grid)
 % Parameters
-width_line = 3;
+width_line = 4;
 
 lines = houghlines(edges, theta_rot, rho, peaks_grid,'FillGap',1000);
 

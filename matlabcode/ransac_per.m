@@ -6,8 +6,11 @@ Niter = 50; % Number of iterations to find a good model
 for i = 1:length(per)-1
     ecart(i) = abs(per(i)-per(i+1));
 end
-d = 2*min(ecart(i)); % maximal distance to detect periode
-
+if length(per) == 1;
+    d = 5;  % maximal distance to detect periode
+else
+    d = 2*min(ecart(i)); % maximal distance to detect periode
+end
 
 score = zeros(Niter,1);
 per_mean = zeros(Niter,1);

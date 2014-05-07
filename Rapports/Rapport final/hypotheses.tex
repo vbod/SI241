@@ -12,8 +12,12 @@ Si le grillage a une rupture de direction et se trouve donc dans deux plans diff
 \paragraph{Grillage total}
 Si le grillage est partiel, c'est à dire qu'il n'est que sur une partie de l'image, le masque obtenu pour l'inpainting étendra les lignes du grillage. L'idée est d'éliminer plus que nécessaire de manière à éviter de garder des morceaux de grillage non détectés.
 
+\paragraph{Grillage non déformé}
+Si le grillage est déformé comme bombé par exemple, on ne peut plus détecter de lignes. L'algorithme que nous proposons n'est pas invariant à ces petites déformations puisqu'il se base sur al détection de lignes dans l'image.
+
 \paragraph{Grillage sans croisillons}
 Si le grillage est fait de croisillons, les lignes de ce dernier seront décalées à chaque noeud, complexifiant donc la détection de ces dernières en tant que lignes traversant toute l'image.
 
 \paragraph{Nombre minimal de barreaux}
 Nous supposons que la photos contient au moins 2 barreaux dans chaque direction. En effet le grillage perd toute caractéristique de périodicité sinon.
+

@@ -4,8 +4,8 @@ close all
 
 
 % Load images
-res = 512; % Résolution de l'image
-[img,img_gray] = load_image('mulotjaune.jpg',res)  ;
+res = 256; % Résolution de l'image
+[img,img_gray] = load_image('tigre.jpg',res)  ;
 
 figure('name','image resized')
 imshow(img)
@@ -36,12 +36,12 @@ peaks_refined = Hough_refined_with_periodicity3(H_rot,linesH,peaks_grid);
 % Hough_refined_with_colors(img, edges, theta_rot, rho, peaks_grid, res)
 
 % Creation of a mask
-% [img_masked, mask] = mask_image(img_gray, edges, theta_rot, rho, peaks_refined);
-% figure('name','mask')
-% imshow(img_masked)
+[img_masked, mask] = mask_image(img_gray, edges, theta_rot, rho, peaks_refined);
+figure('name','mask')
+imshow(img_masked)
 
 % Intpainting
-% inpainting(img_gray, mask);
+inpainting(img_gray, mask);
 
 
 

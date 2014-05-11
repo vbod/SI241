@@ -2,14 +2,14 @@
 
 \subsection{Détection de contours}
 
-La première étape de notre processus de reconnaissance de grillage est de détecter les contours d'une image. En effet, les grillages provoquent naturellement une notion de contours dans l'image de par leur superposition sur le paysage.
+La première étape de notre processus de reconnaissance de grillage est de détecter les contours d'une image. En effet, les grillages provoquent naturellement une notion de contour dans l'image de par leur superposition sur le paysage.
 
 Il existe de nombreuses manières d'obtenir un détecteur de contours, nous avons opté pour la méthode de Canny. Celle-ci a l'avantage de procéder par seuillage par hysteresis ce qui permet d'obtenir de bons résultats - au prix d'une recherche des paramètres optimaux.
 
 Le filtre de Canny commence par un filtrage avec un noyau Gaussien dont la variance détermine l'échelle de précision. Celle-ci doit être en accord avec la taille du grillage pour que ce dernier provoque des contours intéressants. Il y a donc deux possibilités :
 \begin{enumerate}
 \item adapter variance de la gaussienne à la taille caractéristique du grillage. Cette méthode nécessite d'avoir une connaissance \emph{a priori} de la taille du grillage et n'est donc pas satisfaisante en pratique - dans un cas purement non supervisé où l'on en souhaite pas d'intervention extérieure donnant cette taille ;
-\item redimensionner les images pour que les grillages aient une taille - à peu près - fixe entre plusieurs images. Ceci repose sur l'hypothèse que les grillages ont grossièrement la même largeur dans chaque image. C'est bien sûr illusoire, mais de manière sous-jacente ceci implique qu'il n'y a pas de grillage qui recouvrent la moitié de l'image et d'autre quasi-invisibles. Notons que ce redimensionnement sera nécessaire quoiqu'il arrive lors de l'\emph{inpainting}.
+\item redimensionner les images pour que les grillages aient une taille - à peu près - fixe entre plusieurs images. Ceci repose sur l'hypothèse que les grillages ont grossièrement la même largeur dans chaque image. C'est bien sûr illusoire, mais de manière sous-jacente ceci implique qu'il n'y a pas de grillage qui recouvre la moitié de l'image et d'autres quasi-invisibles. Notons que ce redimensionnement sera nécessaire quoiqu'il arrive lors de l'\emph{inpainting}.
 \end{enumerate}
 
 Les résultats de détecteur de contours sont fournis en Fig.(\ref{fig101}). On voit qu'ils sont plutôt bons dans le sens où le grillage est presque partout visible dans les contours. Comme c'est cette information qui est ensuite envoyée pour en extraire les lignes, il est primordial que les lignes soient bien représentées.

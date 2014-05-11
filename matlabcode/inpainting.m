@@ -1,4 +1,9 @@
 function [  ] = inpainting(img, Omega)
+% img est l'image non-masquée et Omega l'inverse du masque. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cas ondelettes orthogonales %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 img = im2double(img);
 Omega = ones(size(Omega)) - Omega;
@@ -10,37 +15,37 @@ getd('toolbox_general/');
 
 n = size(img,1);
 
-Phi = @(f,Omega)f.*(1-Omega);
+
+Phi = @(f,Omega)f.*(1-Omega); % opérateur de masquage
 y = Phi(img, Omega);
 figure('name','image masquée');
 imshow(y);
 
 
-SoftThresh = @(x,T)x.*max( 0, 1-T./max(abs(x),1e-10) );
+SoftThresh = @(x,T)x.*max( 0, 1-T./max(abs(x),1e-10) ); % opérateur de soft thresholding
 
 % paramaters of the wavelet transform.
 Jmax = log2(n)-1;
 Jmin = Jmax-3;
 
 options.ti = 0; % 0 pour orthogonal 1 pour invariant par translation
-Psi = @(a)perform_wavelet_transf(a, Jmin, -1,options);
-PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
+Psi = @(a)perform_wavelet_transf(a, Jmin, -1,options); % calcule la transformation en ondelettes
+PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options); % transformation inverse
 
-SoftThreshPsi = @(f,T)Psi(SoftThresh(PsiS(f),T));
-ProjC = @(f,Omega)Omega.*f + (1-Omega).*y;
+SoftThreshPsi = @(f,T)Psi(SoftThresh(PsiS(f),T)); % threshold dans l'espace des représentations
+ProjC = @(f,Omega)Omega.*f + (1-Omega).*y; % projection sur les contraintes
 
 nb_ite = 1000;
 E = zeros(1, nb_ite);
 lambda = .07; % utiliser dans le cas à pas fixe
-% lambda_list = linspace(1,0,nb_ite);
+% lambda_list = linspace(1,0,nb_ite); % utilise si lambda -> 0 (cas sans bruit)
 
-fSpars = y;
-
+fSpars = y; % initialisation
 for i = 1:nb_ite
    fSpars = ProjC(fSpars,Omega);
    fSpars = SoftThreshPsi(fSpars, lambda);
    no = PsiS(fSpars);
-   E(i) = .5*norm(y-Phi(fSpars,Omega),'fro')^2 + lambda*norm(no(:),1);
+   E(i) = .5*norm(y-Phi(fSpars,Omega),'fro')^2 + lambda*norm(no(:),1); % énergie
 end
 
 figure('name','Energy_orthogonal');
@@ -49,13 +54,16 @@ plot(E);
 figure('name','Inpainting_orthogonal');
 imageplot(clamp(fSpars));
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cas invariant par translation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 J = Jmax-Jmin+1;
 u = [4^(-J) 4.^(-floor(J+2/3:-1/3:1)) ];
 U = repmat( reshape(u,[1 1 length(u)]), [n n 1] );
 
 % lambda = .01;
 
-options.ti = 1; % use translation invariance
+options.ti = 1; % utilise ondelettes translation invariance
 Xi = @(a)perform_wavelet_transf(a, Jmin, -1,options);
 PsiS = @(f)perform_wavelet_transf(f, Jmin, +1,options);
 Psi = @(a)Xi(a./U);
@@ -69,7 +77,7 @@ for l = 1:nb_ite
     fTI = Psi(a);
     a = a + tau*PsiS( Phi( y-Phi(fTI,Omega),Omega ) );
     a = SoftThresh( a, lambda*tau );
-    EE(l) = 0.5*norm(y - Phi(Psi(a),Omega), 'fro') + lambda*norm(a(:),1);
+    EE(l) = 0.5*norm(y - Phi(Psi(a),Omega), 'fro') + lambda*norm(a(:),1); % energie
 end
 
 figure('name','Energy_translation invariant');
@@ -79,8 +87,8 @@ fTI = Psi(a);
 figure('name','Energy_translation invariant');
 imageplot(clamp(fTI));
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cas invariant par translation plus HT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Inpainting using Iterative Hard Thresholding
 HardThresh = @(x,t)x.*(abs(x)>t);
 
 niter = 500;
@@ -96,14 +104,6 @@ end
 
 figure('name', 'Inpainting');
 imageplot(clamp(fHard));
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% Inpainting variationel !!!! A faire ! 
 
 end
 
